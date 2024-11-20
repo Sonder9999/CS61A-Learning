@@ -1,7 +1,7 @@
-LAB_SOURCE_FILE=__file__
+LAB_SOURCE_FILE = __file__
 
 
-HW_SOURCE_FILE=__file__
+HW_SOURCE_FILE = __file__
 
 
 def num_eights(n):
@@ -29,6 +29,16 @@ def num_eights(n):
     """
     "*** YOUR CODE HERE ***"
 
+    def count_eight(n, count):
+        if n == 0:
+            return count
+        elif n % 10 == 8:
+            return count_eight(n // 10, count + 1)
+        else:
+            return count_eight(n // 10, count)
+
+    return count_eight(n, 0)
+
 
 def digit_distance(n):
     """Determines the digit distance of n.
@@ -50,6 +60,14 @@ def digit_distance(n):
     True
     """
     "*** YOUR CODE HERE ***"
+
+    def count_distance(n, count):
+        if n >= 0 and n < 10:
+            return count
+        else:
+            return count_distance(n // 10, count + abs((n // 10) % 10 - n % 10))
+
+    return count_distance(n, 0)
 
 
 def interleaved_sum(n, odd_func, even_func):
@@ -73,6 +91,16 @@ def interleaved_sum(n, odd_func, even_func):
     """
     "*** YOUR CODE HERE ***"
 
+    def sum_func(k):
+        if k > n:
+            return 0
+        elif n == k:
+            return odd_func(k)
+        else:
+            return odd_func(k) + even_func(k + 1) + sum_func(k + 2)
+
+    return sum_func(1)
+
 
 def next_larger_coin(coin):
     """Returns the next larger coin in order.
@@ -91,6 +119,7 @@ def next_larger_coin(coin):
     elif coin == 10:
         return 25
 
+
 def next_smaller_coin(coin):
     """Returns the next smaller coin in order.
     >>> next_smaller_coin(25)
@@ -107,6 +136,7 @@ def next_smaller_coin(coin):
         return 5
     elif coin == 5:
         return 1
+
 
 def count_coins(total):
     """Return the number of ways to make change using coins of value of 1, 5, 10, 25.
@@ -127,10 +157,23 @@ def count_coins(total):
     """
     "*** YOUR CODE HERE ***"
 
+    def count_ways(coinNum, maxCoin):
+        if coinNum == 0:
+            return 1
+        elif coinNum < 0 or maxCoin == None:
+            return 0
+        else:
+            return count_ways(coinNum - maxCoin, maxCoin) + count_ways(
+                coinNum, next_smaller_coin(maxCoin)
+            )
+
+    return count_ways(total, 25)
+
 
 def print_move(origin, destination):
     """Print instructions to move a disk."""
     print("Move the top disk from rod", origin, "to rod", destination)
+
 
 def move_stack(n, start, end):
     """Print the moves required to move n disks on the start pole to the end
@@ -165,6 +208,7 @@ def move_stack(n, start, end):
 
 from operator import sub, mul
 
+
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
 
@@ -176,5 +220,4 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return 'YOUR_EXPRESSION_HERE'
-
+    return "YOUR_EXPRESSION_HERE"
