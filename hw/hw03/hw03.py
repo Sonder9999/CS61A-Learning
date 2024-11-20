@@ -175,6 +175,7 @@ def print_move(origin, destination):
     print("Move the top disk from rod", origin, "to rod", destination)
 
 
+# with book help : <数据结构> P.55 (C语言版, <严蔚敏, 吴伟民 著>, 清华大学出版社)
 def move_stack(n, start, end):
     """Print the moves required to move n disks on the start pole to the end
     pole without violating the rules of Towers of Hanoi.
@@ -205,10 +206,21 @@ def move_stack(n, start, end):
     assert 1 <= start <= 3 and 1 <= end <= 3 and start != end, "Bad start/end"
     "*** YOUR CODE HERE ***"
 
+    def move(n, a, b, c):
+        if n == 1:
+            print_move(a, c)
+        else:
+            move(n - 1, a, c, b)
+            move(1, a, b, c)
+            move(n - 1, b, a, c)
+
+    return move(n, start, 6 - start - end, end)
+
 
 from operator import sub, mul
 
 
+# with copilot help
 def make_anonymous_factorial():
     """Return the value of an expression that computes factorial.
 
@@ -220,4 +232,6 @@ def make_anonymous_factorial():
     ...     ['Assign', 'AnnAssign', 'AugAssign', 'NamedExpr', 'FunctionDef', 'Recursion'])
     True
     """
-    return "YOUR_EXPRESSION_HERE"
+    return (lambda f: f(f))(
+        lambda f: lambda n: 1 if n == 1 else mul(n, f(f)(sub(n, 1)))
+    )
