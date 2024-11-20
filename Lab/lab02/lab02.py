@@ -44,7 +44,7 @@
 ? Function
 -- OK! --
 
-由于 print 函数返回 None，所以 one_thousand 被赋值为 None。
+由于 print 函数返回 None,所以 one_thousand 被赋值为 None。
 >>> one_thousand = print_lambda(1000)
 >>> one_thousand = print_lambda(1000)
 ? 1000
@@ -71,6 +71,7 @@ def composite_identity(f, g):
     False
     """
     "*** YOUR CODE HERE ***"
+    return lambda x: f(g(x)) == g(f(x))
 
 
 def sum_digits(y):
@@ -98,6 +99,8 @@ def count_cond(condition):
     1 to N that satisfy the two-argument predicate function Condition, where
     the first argument for Condition is N and the second argument is the
     number from 1 to N.
+    返回一个带有一个参数 N 的函数,该函数计算从 1 到 N 的所有满足两个参数谓词函数 Condition 的数字,
+    其中 Condition 的第一个参数是 N,第二个参数是从 1 到 N 的数字。
 
     >>> count_fives = count_cond(lambda n, i: sum_digits(n * i) == 5)
     >>> count_fives(10)   # 50 (10 * 5)
@@ -120,6 +123,16 @@ def count_cond(condition):
     """
     "*** YOUR CODE HERE ***"
 
+    def count(n):
+        i, sum = 1, 0
+        while i <= n:
+            if condition(n, i):
+                sum += 1
+            i += 1
+        return sum
+
+    return count
+
 
 def multiple(a, b):
     """Return the smallest number n that is a multiple of both a and b.
@@ -130,6 +143,10 @@ def multiple(a, b):
     42
     """
     "*** YOUR CODE HERE ***"
+    i = min(a, b)
+    while i % a != 0 or i % b != 0:
+        i += 1
+    return i
 
 
 def cycle(f1, f2, f3):
@@ -159,3 +176,20 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+
+    def g(n):
+        def h(x):
+            i = 0
+            while i < n:
+                if i % 3 == 0:
+                    x = f1(x)
+                elif i % 3 == 1:
+                    x = f2(x)
+                else:
+                    x = f3(x)
+                i += 1
+            return x
+
+        return h
+
+    return g
